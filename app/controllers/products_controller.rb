@@ -1,11 +1,13 @@
 class ProductsController < ApplicationController
   def index
     @products = Product.all
+      @current_user = current_user
   end
 
 
   def show
     @products = Product.all
+
     @product = Product.find(params[:id])
     render :show
   end
