@@ -27,13 +27,13 @@ class ReviewsController < ApplicationController
         else
           render :new
         end
-
+      end
         def destroy
          @review = Review.find(params[:id])
          @review.destroy
          redirect_to product_path(@review.product)
        end
-      end
+  
 
   private
    def review_params

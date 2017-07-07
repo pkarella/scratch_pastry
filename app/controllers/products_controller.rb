@@ -1,8 +1,8 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index, :home]
   def index
     @products = Product.all
-      @current_user = current_user
+    @current_user = current_user
   end
 
 
@@ -14,12 +14,14 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
+    @current_user = current_user
+    @product = @current_user.products.new
     render :new
   end
 
   def create
-    @product = Product.new(product_params)
+    @current_user = current_user
+    @product = @current_user.products.new(product_params)
     if @product.save
       flash[:notice] = "Product successfully added!"
       redirect_to  products_path
@@ -50,6 +52,6 @@ class ProductsController < ApplicationController
 
 private
 def product_params
-    params.require(:product).permit(:name, :cost)
+    params.require(:product).permit(:name, :cost, :user_id)
   end
 end
